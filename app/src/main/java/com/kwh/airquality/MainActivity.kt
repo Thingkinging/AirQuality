@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                     longitude = result.data?.getDoubleExtra("longitude", 0.0) ?: 0.0
 //                    latitude = result.data?.getDoubleExtra("latitude", 35.12188) ?: 0.0
 //                    longitude = result.data?.getDoubleExtra("longitude", 129.0419) ?: 0.0
+                    updateUI()
+
                 }
             }
         }
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setFab() {
         binding.fab.setOnClickListener {
-            val intent = Intent(this, MapActivity::class.java)
+            val intent = Intent(this@MainActivity, MapActivity::class.java) //this -> this@MainActivity 로 수정
             intent.putExtra("currentLat", latitude)
             intent.putExtra("currentLng", longitude)
             startMapActivityResult.launch(intent)
@@ -97,7 +99,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (latitude != 0.0 || longitude != 0.0) {
-            val address = getCurrentAddress(35.12188, 129.0419)
+//            val address = getCurrentAddress(35.12188, 129.0419)
+            val address = getCurrentAddress(latitude, longitude)
 
             address?.let {
                 binding.tvLocationTitle.text = "${it.thoroughfare}"
